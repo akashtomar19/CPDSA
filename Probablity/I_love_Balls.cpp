@@ -1,5 +1,6 @@
-// https://codeforces.com/contest/1925/problem/D
+// https://codeforces.com/contest/1983/problem/E
 #include <bits/stdc++.h>
+#define int long long
 using namespace std;
 
 const int MOD = 1e9 + 7;
@@ -97,28 +98,37 @@ struct Mint {
     }
 };
 
-int main() {
+int32_t main() {
     ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
     int t;
     cin >> t;
 
     while (t--) {
-        int n, m, k;
-        cin>>n>>m>>k;
-        Mint sumf = 0;
-        for(int i = 0; i < m; i++){
-            int a, b, f;
-            cin>>a>>b>>f;
-            sumf += f;
+        Mint n, k;
+        cin>>n>>k;
+        Mint ksum = 0, nsum = 0;
+        for(int i = 0; i < (int)k; i++){
+            int x;
+            cin>>x;
+            ksum += x;
         }
-        Mint ans = 0;
-        Mint mx = (Mint)n * (n - 1) / 2;
-        for(int i = 0; i < k; i++){
-            ans += sumf/mx;
-            sumf += m/mx;
+        for(int i = (int)k; i < (int)n; i++){
+            int x;
+            cin>>x;
+            nsum += x;
         }
-        cout<<ans<<endl;
+        Mint c = ceil((1.0 * (int)n - (int)k + 1) /2);
+        Mint d = floor((1.0 * (int)n - (int)k + 1) / 2);
+
+        Mint a = ceil((1.0 * (int)n - (int)k) / 2);
+        Mint b = floor((1.0 * (int)n - (int)k) / 2);
+        //cout<<a<<b<<endl;
+        //cout<<c<<d<<endl;
+
+        auto alice = a/(a + b) * nsum + c/(c + d) * ksum;
+        auto bob = b / (a + b) * nsum + d/(c + d) * ksum;
+        cout<<alice<<" "<<bob<<endl;
     }
 
     return 0;
