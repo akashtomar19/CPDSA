@@ -32,34 +32,36 @@ void solve() {
     cin>>n;
 
     int m = 1;
-    while(n - 1 > ((m % 2) ? (m * (m - 1) / 2 + m) : (m * (m - 1) / 2 + m - m/2 + 1))){
+    while (n - 1 > (m % 2 == 1 ? m * (m + 1) / 2 : m * m / 2 + 1)) {
         m++;
     }
     //cout<<m<<endl;
     vector<vector<int>>a(m + 1, vector<int>(m + 1, 1));
-    if(m % 2 == 0){
-        for(int i = 1; i < m - 1; i+=2){
+    std::vector<int> cur(m);
+    if (m % 2 == 0) {
+        for (int i = 1; i < m - 1; i += 2) {
             a[i][i + 1] = a[i + 1][i] = 0;
         }
     }
     vector<int>res;
+    res.reserve(n);
 
-    function<void(int)> dfs = [&](int x){
-        //cout<<x<<endl;
-        for(int i = 0; i < m; i++){
-            if(a[x][i]){
+    auto dfs = [&](auto &&self, int x) -> void {
+        for (int &i = cur[x]; i < m; i++) {
+            if (a[x][i]) {
                 a[x][i] = a[i][x] = 0;
-                dfs(i);
+                self(self, i);
             }
         }
         res.push_back(primes[x]);
     };
-    dfs(0);
-
-    for(int i = 0; i < n; i++){
-        cout<<res[i]<<" ";
+    dfs(dfs, 0);
+    res.resize(n);
+    for (int i = 0; i < n; i++) {
+        std::cout << res[i] << " \n"[i == n - 1];
     }
-    cout<<endl;
+
+
 }
 
 
@@ -67,12 +69,13 @@ int32_t main()
 {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
-    int t;
-    sieve(3 * 1e5);
 
-    cin >> t;
-    for(int i = 1; i <= t; i++)
-    {
+    sieve(3E5);
+
+    int t;
+    std::cin >> t;
+
+    while (t--) {
         solve();
     }
 
