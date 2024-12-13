@@ -1,3 +1,8 @@
+/**
+ * https://math.stackexchange.com/questions/2869495/number-of-solutions-to-a-linear-congruence-equation
+ * https://cp-algorithms.com/algebra/linear-diophantine-equation.html
+ * 
+ */
 #include<bits/stdc++.h>
 using namespace std;
 int gcd(int a, int b){
